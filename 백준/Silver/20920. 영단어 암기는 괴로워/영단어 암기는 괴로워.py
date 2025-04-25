@@ -4,20 +4,11 @@ from collections import Counter
 input = sys.stdin.readline
 
 n, m = map(int, input().split())
-
-words = []
-
-for _ in range(n):
-    word = input().rstrip()
-    if len(word) >= m:
-        words.append(word)
+words = [input().rstrip() for _ in range(n)]
 
 counter = Counter(words)
+results = sorted(set(words), key=lambda word: (-counter[word], -len(word), word))
 
-def sort_word(word):
-    return -counter[word], -len(word), word
-
-words = sorted(set(words), key=sort_word)
-
-for word in words:
-    print(word)
+for word in results:
+    if len(word) >= m:
+        print(word)
