@@ -1,26 +1,26 @@
-from collections import deque
+import sys
 
-V = int(input())
-E = int(input())
+input = sys.stdin.readline
 
-adj_lst = [[] for _ in range(V + 1)]
+com_num = int(input())
+line_num = int(input())
 
-for _ in range(E):
-    s, e = map(int, input().split())
-    adj_lst[s].append(e)
-    adj_lst[e].append(s)
+graph = [[] for _ in range(com_num + 1)]
 
+for _ in range(line_num):
+    v1, v2 = map(int, input().split())
+    graph[v1].append(v2)
+    graph[v2].append(v1)
 
-queue = deque([1])
-visited = set([1])
+visited = [False] * (com_num + 1)
 
-while queue:
-    cur = queue.popleft()
+def dfs(node):
+    for next in graph[node]:
+        if not visited[next]:
+            visited[next] = True
+            dfs(next)
 
-    for nxt in adj_lst[cur]:
-        if nxt not in visited:
-            visited.add(nxt)
-            queue.append(nxt)
+visited[1] = True
+dfs(1)
 
-ans = len(visited) - 1
-print(ans)
+print(sum(visited) - 1)
