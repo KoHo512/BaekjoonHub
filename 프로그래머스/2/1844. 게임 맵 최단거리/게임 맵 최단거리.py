@@ -1,32 +1,29 @@
 from collections import deque
 
-# 델타 세팅
-dr = [-1, 1, 0, 0]
-dc = [0, 0, -1, 1]
-
 def solution(maps):
-    n, m = len(maps), len(maps[0])
     
-    bmaps = [[0] * (m + 2) for _ in range(n + 2)]
-    for i in range(1, n + 1):
-        bmaps[i][1 : m + 1] = maps[i - 1]
+    def bfs(x, y):
+        queue = deque([(x, y)])
         
-    queue = deque([(1, 1, 1)])
-    bmaps[1][1] = 0
-    ans = -1
-    
-    while queue:
-        r, c, cnt = queue.popleft()
-        
-        if r == n and c == m:
-            ans = cnt
-            break
+        while queue:
+            x, y = queue.popleft()
             
-        for d in range(4):
-            nr, nc = r + dr[d], c + dc[d]
-            if bmaps[nr][nc]:
-                bmaps[nr][nc] = 0
-                queue.append((nr, nc, cnt + 1))
-        
-    return ans
+            for i in range(4):
+                nx, ny = x + dx[i], y + dy[i]
+                
+                if 0 <= nx < n and 0 <= ny < m and visited[nx][ny] == 0 and maps[nx][ny] == 1:
+                    visited[nx][ny] = visited[x][y] + 1
+                    
+                    if nx == n - 1 and ny == m - 1:
+                        return visited[nx][ny]
+                
+                    queue.append((nx, ny))
+        return -1
+                    
+    n, m = len(maps), len(maps[0])
+    x, y = 0, 0
+    dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]
+    visited = [[0] * m for _ in range(n)]
     
+    visited[x][y] = 1
+    return bfs(x, y)
