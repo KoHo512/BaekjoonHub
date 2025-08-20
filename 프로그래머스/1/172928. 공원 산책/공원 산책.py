@@ -1,32 +1,45 @@
 def solution(park, routes):
     h, w = len(park), len(park[0])
     
-    def find_s():
-        for i in range(h):
-            for j in range(w):
-                if park[i][j] == "S":
-                    return i, j
+    def start_at():
+        for x in range(h):
+            for y in range(w):
+                if park[x][y] == "S":
+                    return x, y
                 
-    x, y = find_s()
-    dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]
-    direction = {"N": 0, "S": 1, "W": 2, "E": 3}
+    x, y = start_at()
     
     for route in routes:
-        op, n = route.split()
+        d, n = route.split()
         n = int(n)
         
-        d = direction.get(op)
-        
-        nx, ny = x, y
-        for i in range(n):
-            nx, ny = nx + dx[d], ny + dy[d]
+        if d == "N":
+            nx, ny = x - n, y
+            s = -1
+        elif d == "S":
+            nx, ny = x + n, y
+            s = 1
+        elif d == "W":
+            nx, ny = x, y - n
+            s = -1
+        else:
+            nx, ny = x, y + n
+            s = 1
             
-            if 0 <= nx < h and 0 <= ny < w:
-                if park[nx][ny] == "X":
+        if not (0 <= nx < h and 0 <= ny < w):
+            continue
+        
+        if d in ["N", "S"]:
+            for i in range(x, nx + s, s):
+                if park[i][ny] == "X":
                     break
             else:
-                break        
+                x, y = nx, ny
         else:
-            x, y = nx, ny
+            for j in range(y, ny + s, s):
+                if park[nx][j] == "X":
+                    break
+            else:
+                x, y = nx, ny
             
     return [x, y]
