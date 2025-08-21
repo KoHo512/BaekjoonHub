@@ -1,22 +1,19 @@
 from collections import deque
 
 def solution(priorities, location):
-    queue = deque(priorities)
+    queue = deque([(i, prior) for i, prior in enumerate(priorities)])
     answer = 0
     
     while queue:
-        process = queue.popleft()
-        location -= 1
+        i, process = queue.popleft()
         
         if not queue:
             return answer + 1
         
-        if process < max(queue):
-            queue.append(process)
-            if location == -1:
-                location = len(queue) - 1
+        if process < max([prior for _, prior in queue]):
+            queue.append((i, process))
         else:
             answer += 1
-
-        if location == -1:
-            return answer
+            
+            if i == location:
+                return answer
