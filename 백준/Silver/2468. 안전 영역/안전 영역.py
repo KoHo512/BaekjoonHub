@@ -1,17 +1,22 @@
 import sys
+from collections import deque
 
-sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
 
 dx, dy = [-1, 1, 0, 0], [0, 0, -1, 1]
 
-def dfs(x, y):
-    for i in range(4):
-        nx, ny = x + dx[i], y + dy[i]
+def bfs(x, y):
+    queue = deque([(x, y)])
 
-        if 0 <= nx < n and 0 <= ny < n and not visited[nx][ny] and field[nx][ny] > h:
-            visited[nx][ny] = True
-            dfs(nx, ny)
+    while queue:
+        x, y = queue.popleft()
+
+        for i in range(4):
+            nx, ny = x + dx[i], y + dy[i]
+
+            if 0 <= nx < n and 0 <= ny < n and not visited[nx][ny] and field[nx][ny] > h:
+                visited[nx][ny] = True
+                queue.append((nx, ny))
 
 n = int(input())
 field = []
@@ -31,7 +36,7 @@ for h in range(0, max_h):
             if field[i][j] > h and not visited[i][j]:
                 total += 1
                 visited[i][j] = True
-                dfs(i, j)
+                bfs(i, j)
 
     max_sa = max(max_sa, total)
 
