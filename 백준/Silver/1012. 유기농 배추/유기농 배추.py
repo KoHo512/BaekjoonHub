@@ -1,3 +1,5 @@
+# 백준 1012번: 유기농 배추
+
 import sys
 
 input = sys.stdin.readline
@@ -9,13 +11,9 @@ def dfs(x, y):
     for i in range(4):
         nx, ny = x + dx[i], y + dy[i]
         
-        if 0 <= nx < n and 0 <= ny < m:
-            if graph[nx][ny] == 2:
-                continue
-
-            if graph[nx][ny] == 1:
-                graph[nx][ny] = 2
-                dfs(nx, ny)
+        if 0 <= nx < n and 0 <= ny < m and graph[nx][ny] == 1:
+            graph[nx][ny] = 0
+            dfs(nx, ny)
 
 t = int(input())
 
