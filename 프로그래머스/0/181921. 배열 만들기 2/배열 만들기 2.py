@@ -2,14 +2,14 @@ def solution(l, r):
     answer = set()
     
     def add_05(num):
-        if l <= num <= r:
-            answer.add(num)
-            
         if num > r:
             return
         
-        add_05(int(str(num)+"5"))
-        add_05(int(str(num)+"0"))
+        if l <= num <= r:
+            answer.add(num)
+        
+        add_05(num * 10)
+        add_05(num * 10 + 5)
     
     add_05(5)
     
