@@ -1,19 +1,17 @@
 def solution(numbers, target):
+    answer = 0
     
-    def dfs(depth, total):
-        # 1. 종료 조건
-        if depth == len(numbers):
+    def dfs(idx, total):
+        nonlocal answer
+        
+        if idx == len(numbers):
             if total == target:
-                nonlocal answer
                 answer += 1
             return
         
-        # 2. 정화식(재귀식)
-        dfs(depth + 1, total + numbers[depth])
-        dfs(depth + 1, total - numbers[depth])
-        
-    answer = 0
-    dfs(1, numbers[0])
-    dfs(1, -numbers[0])
+        dfs(idx + 1, total + numbers[idx])
+        dfs(idx + 1, total - numbers[idx])
     
+    dfs(0, 0)
+        
     return answer
