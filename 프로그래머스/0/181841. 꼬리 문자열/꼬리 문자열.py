@@ -1,8 +1,10 @@
 def solution(str_list, ex):
-    answer = ''
+#     answer = ''
     
-    for st in str_list:
-        if ex not in st:
-            answer += st
+#     for st in str_list:
+#         if ex not in st:
+#             answer += st
             
-    return answer
+#     return answer
+
+    return ''.join([st for st in str_list if ex not in st])
